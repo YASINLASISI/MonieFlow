@@ -103,18 +103,18 @@ export default function AppLayout({
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-sm font-medium text-sidebar-foreground truncate">
+            <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
+              <span className="text-sm font-medium text-sidebar-foreground truncate block">
                 {user.name}
               </span>
-              <span className="text-xs text-sidebar-foreground/70 truncate">
+              <span className="text-xs text-sidebar-foreground/70 truncate block">
                 {user.email}
               </span>
             </div>
             <Button
               variant="ghost"
               size="icon"
-              className="ml-auto group-data-[collapsible=icon]:hidden text-sidebar-foreground/70 hover:text-sidebar-accent-foreground hover:bg-sidebar-accent h-8 w-8"
+              className="group-data-[collapsible=icon]:hidden text-sidebar-foreground/70 hover:text-sidebar-accent-foreground hover:bg-sidebar-accent h-8 w-8"
               aria-label="Log out"
               onClick={logout}
             >
