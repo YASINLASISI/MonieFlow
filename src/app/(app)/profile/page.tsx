@@ -1,4 +1,6 @@
-import { suggestGigsBasedOnSkills } from '@/ai/flows/suggest-gigs-based-on-skills';
+'use client';
+
+import { suggestGigsBasedOnSkills, type SuggestedGig } from '@/ai/flows/suggest-gigs-based-on-skills';
 import { GigCard } from '@/components/gigs/gig-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -11,23 +13,42 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { gigs, user } from '@/lib/data';
-import { CheckCircle, Download, Trophy, Star } from 'lucide-react';
+import { user } from '@/lib/data';
+import { CheckCircle, Download, Trophy, Star, Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect, useState, useTransition } from 'react';
 
-export default async function ProfilePage() {
-  const suggestedGigs = await suggestGigsBasedOnSkills({ skills: user.skills });
+type MappedGig = {
+    id: string;
+    title: string;
+    description: string;
+    budget: number;
+    skills: string[];
+    isVerified: boolean;
+    category: 'Recommended';
+};
 
-  // For UI purposes, we'll map the AI response to our existing GigCard component structure
-  const mappedGigs = suggestedGigs.map((g, i) => ({
-    id: `suggested-${i}`,
-    title: g.title,
-    description: g.description,
-    budget: Math.floor(Math.random() * (10000 - 2000 + 1) + 2000), // Random budget in NGN
-    skills: g.requiredSkills,
-    isVerified: true,
-    category: 'Recommended' as const,
-  }));
+
+export default function ProfilePage() {
+  const [suggestedGigs, setSuggestedGigs] = useState<MappedGig[]>([]);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    startTransition(async () => {
+        const aiGigs = await suggestGigsBasedOnSkills({ skills: user.skills });
+        // For UI purposes, we'll map the AI response to our existing GigCard component structure
+        const mappedGigs = aiGigs.map((g, i) => ({
+            id: `suggested-${i}`,
+            title: g.title,
+            description: g.description,
+            budget: Math.floor(Math.random() * (10000 - 2000 + 1) + 2000), // Random budget in NGN
+            skills: g.requiredSkills,
+            isVerified: true,
+            category: 'Recommended' as const,
+        }));
+        setSuggestedGigs(mappedGigs);
+    });
+  }, []);
 
   const portfolioItems = [
     { id: 1, title: 'Landing Page Design', imageUrl: 'https://picsum.photos/seed/p1/600/400', imageHint: 'website design' },
@@ -172,9 +193,15 @@ export default async function ProfilePage() {
                 AI Suggested Gigs
               </h2>
               <div className="space-y-4">
-                {mappedGigs.slice(0, 1).map((gig) => (
-                  <GigCard key={gig.id} gig={gig} />
-                ))}
+                {isPending ? (
+                    <div className="flex items-center justify-center rounded-lg border border-dashed p-8">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                ) : (
+                    suggestedGigs.slice(0, 1).map((gig) => (
+                        <GigCard key={gig.id} gig={gig as any} />
+                    ))
+                )}
               </div>
             </div>
         </div>
