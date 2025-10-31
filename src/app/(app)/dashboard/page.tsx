@@ -2,33 +2,36 @@ import { FinancialSummary } from '@/components/dashboard/financial-summary';
 import { IncomeChart } from '@/components/dashboard/income-chart';
 import { SavingsGoal } from '@/components/dashboard/savings-goal';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { user, financialData } from '@/lib/data';
-import { BarChart, Bot, DollarSign, TrendingUp, AlertTriangle } from 'lucide-react';
+import { user, financialData, gigs } from '@/lib/data';
+import { BarChart, Bot, DollarSign, TrendingUp, AlertTriangle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { GigCard } from '@/components/gigs/gig-card';
+import { Badge } from '@/components/ui/badge';
 
 export default function DashboardPage() {
   const brokeRiskDays = 3;
   const brokeRiskLevel = brokeRiskDays < 7 ? "High" : brokeRiskDays < 14 ? "Medium" : "Low";
   const brokeRiskColor = brokeRiskLevel === "High" ? "text-destructive" : brokeRiskLevel === "Medium" ? "text-yellow-500" : "text-green-500";
 
+  const aiCuratedGigs = gigs.filter(gig => gig.category === 'AI-Curated').slice(0, 2);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-headline font-bold">
+          <h1 className="text-3xl lg:text-4xl font-headline font-bold tracking-tight">
             Welcome back, {user.name.split(' ')[0]}!
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mt-1">
             Today is a new day to earn. Let's get it.
           </p>
         </div>
-         <div className="flex items-center gap-2">
-            <Bot className="h-6 w-6 text-primary" />
-            <p className="text-sm text-muted-foreground max-w-xs">
-              <span className="font-semibold text-foreground">AI Sidekick:</span> You have 3 new gigs that match your skills. Let's make N5,000 today.
-            </p>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-card border">
+          <Bot className="h-6 w-6 text-primary flex-shrink-0" />
+          <p className="text-sm text-muted-foreground">
+            <span className="font-semibold text-foreground">AI Sidekick:</span> You have 3 new gigs that match your skills. Let's make ₦5,000 today.
+          </p>
         </div>
       </div>
 
@@ -72,58 +75,49 @@ export default function DashboardPage() {
         </Card>
       </div>
       
-      <Card>
-        <CardHeader>
-            <CardTitle className="font-headline">AI Personal Economy</CardTitle>
-            <CardDescription>
-                Your transport cost is eating 35% of this week’s earnings. Consider gigs closer to campus.
-            </CardDescription>
-        </CardHeader>
-        <CardContent>
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                <div className="lg:col-span-2">
-                    <IncomeChart />
-                </div>
-                <div>
-                    <SavingsGoal />
-                </div>
-            </div>
-        </CardContent>
+      <Card className="overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-3">
+          <div className="lg:col-span-2 p-6 border-b lg:border-b-0 lg:border-r">
+            <CardHeader className="p-0 mb-4">
+                <CardTitle className="font-headline text-2xl">AI Personal Economy</CardTitle>
+                <CardDescription>
+                    Your transport cost is eating 35% of this week’s earnings. Consider gigs closer to campus.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+                <IncomeChart />
+            </CardContent>
+          </div>
+          <div className="p-6 bg-muted/30">
+            <CardHeader className="p-0 mb-4">
+                <CardTitle className="font-headline text-2xl">Savings Goal</CardTitle>
+                <CardDescription>
+                    Auto-route a portion of your earnings to a locked savings wallet.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+                <SavingsGoal />
+            </CardContent>
+          </div>
+        </div>
       </Card>
 
-      <Card>
-        <CardHeader>
-            <CardTitle className="font-headline">AI-Curated Gigs</CardTitle>
-            <CardDescription>
-                Always have something to do. These micro-jobs are provided by MonieFlow partners.
-            </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-            <div className="flex justify-between items-center p-4 rounded-lg border bg-card hover:bg-muted/50">
-                <div>
-                    <h3 className="font-semibold">Data Labeling Task</h3>
-                    <p className="text-sm text-muted-foreground">Label 50 images for an AI model.</p>
-                </div>
-                <div className="text-right">
-                    <p className="font-semibold text-primary">₦1,500</p>
-                    <p className="text-xs text-muted-foreground">Approx. 30 mins</p>
-                </div>
+      <div>
+        <div className="flex items-center justify-between mb-4">
+            <div>
+                <h2 className="text-2xl font-headline font-bold">AI-Curated Gigs</h2>
+                <p className="text-muted-foreground">Always have something to do. These micro-jobs are provided by MonieFlow partners.</p>
             </div>
-             <div className="flex justify-between items-center p-4 rounded-lg border bg-card hover:bg-muted/50">
-                <div>
-                    <h3 className="font-semibold">Product Review</h3>
-                    <p className="text-sm text-muted-foreground">Write a short review for a new app.</p>
-                </div>
-                 <div className="text-right">
-                    <p className="font-semibold text-primary">₦500</p>
-                    <p className="text-xs text-muted-foreground">Approx. 10 mins</p>
-                </div>
-            </div>
-            <Button variant="outline" className="w-full">
-                <Link href="/gigs">View All Available Gigs</Link>
+            <Button variant="ghost" asChild>
+                <Link href="/gigs">View all <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
-        </CardContent>
-      </Card>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {aiCuratedGigs.map((gig) => (
+                <GigCard key={gig.id} gig={gig} />
+            ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,13 +1,6 @@
 'use client';
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -29,7 +22,7 @@ const chartConfig = {
 
 export function IncomeChart() {
   return (
-      <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+      <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
         <BarChart accessibilityLayer data={financialData.incomeHistory}>
           <CartesianGrid vertical={false} />
           <XAxis
@@ -47,7 +40,15 @@ export function IncomeChart() {
           />
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent formatter={(value) => `₦${Number(value).toLocaleString()}`} />}
+            content={<ChartTooltipContent formatter={(value, name) => {
+              const currency = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(Number(value));
+              return (
+                <div className="flex flex-col">
+                  <span className='font-semibold'>{name}</span>
+                  <span>{currency}</span>
+                </div>
+              )
+            }} />}
           />
           <Bar dataKey="income" fill="var(--color-income)" radius={[4, 4, 0, 0]} />
           <Bar dataKey="expenses" fill="var(--color-expenses)" radius={[4, 4, 0, 0]} />

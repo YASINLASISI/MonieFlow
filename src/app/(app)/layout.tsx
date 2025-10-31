@@ -22,6 +22,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { Logo } from "@/components/logo"
+import { Badge } from "@/components/ui/badge"
 
 export default function AppLayout({
   children,
@@ -31,11 +32,11 @@ export default function AppLayout({
   return (
     <SidebarProvider>
       <Sidebar>
-        <SidebarHeader>
-          <div className="hidden group-data-[collapsible=icon]:block">
-            <Logo className="w-8" />
+        <SidebarHeader className="border-b">
+          <div className="hidden group-data-[collapsible=icon]:block p-2">
+            <Logo className="w-8" isIconOnly />
           </div>
-           <div className="hidden group-data-[collapsible=icon]:hidden">
+           <div className="hidden group-data-[collapsible=icon]:hidden p-2">
              <Logo />
            </div>
         </SidebarHeader>
@@ -44,59 +45,61 @@ export default function AppLayout({
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
-                tooltip="Dashboard"
+                tooltip={{ children: "Dashboard", side: "right", align: "center", className: "ml-1"}}
                 isActive
               >
                 <Link href="/dashboard">
                   <LayoutDashboard />
-                  Dashboard
+                  <span>Dashboard</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Find Work">
+              <SidebarMenuButton asChild tooltip={{ children: "Find Work", side: "right", align: "center", className: "ml-1"}}>
                 <Link href="/gigs">
                   <Briefcase />
-                  Find Work
+                  <span>Find Work</span>
+                   <Badge variant="secondary" className="ml-auto group-data-[collapsible=icon]:hidden">12</Badge>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Profile">
+              <SidebarMenuButton asChild tooltip={{ children: "Profile", side: "right", align: "center", className: "ml-1"}}>
                 <Link href="/profile">
                   <UserIcon />
-                  Profile
+                  <span>Profile</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
              <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Settings">
+              <SidebarMenuButton asChild tooltip={{ children: "Settings", side: "right", align: "center", className: "ml-1"}}>
                 <a>
                   <Settings />
-                  Settings
+                  <span>Settings</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter>
-          <div className="flex items-center gap-2 group-data-[collapsible=icon]:justify-center">
+        <SidebarFooter className="border-t">
+          <div className="flex items-center gap-3 w-full">
             <Avatar className="h-8 w-8">
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-sm font-medium text-sidebar-foreground">
+              <span className="text-sm font-medium text-sidebar-foreground truncate">
                 {user.name}
               </span>
-              <span className="text-xs text-sidebar-foreground/70">
+              <span className="text-xs text-sidebar-foreground/70 truncate">
                 {user.email}
               </span>
             </div>
              <Button
               variant="ghost"
               size="icon"
-              className="ml-auto group-data-[collapsible=icon]:hidden text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+              className="ml-auto group-data-[collapsible=icon]:hidden text-sidebar-foreground/70 hover:text-sidebar-accent-foreground hover:bg-sidebar-accent h-8 w-8"
+              aria-label="Log out"
             >
               <LogOut className="h-4 w-4" />
             </Button>
@@ -104,7 +107,7 @@ export default function AppLayout({
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="flex items-center justify-between border-b p-3 md:hidden">
+        <header className="flex items-center justify-between border-b p-3 md:hidden sticky top-0 bg-background z-10">
           <Logo />
           <SidebarTrigger />
         </header>

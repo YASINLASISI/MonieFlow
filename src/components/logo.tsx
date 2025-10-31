@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils"
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, isIconOnly = false }: { className?: string; isIconOnly?: boolean }) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
+      <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -20,9 +20,11 @@ export function Logo({ className }: { className?: string }) {
           <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
         </svg>
       </div>
-      <span className="font-headline text-xl font-bold text-primary">
-        MonieFlow
-      </span>
+      {!isIconOnly && (
+        <span className="font-headline text-xl font-bold text-primary">
+          MonieFlow
+        </span>
+      )}
     </div>
   )
 }

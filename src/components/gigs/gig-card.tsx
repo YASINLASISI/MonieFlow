@@ -17,7 +17,7 @@ interface GigCardProps {
 
 export function GigCard({ gig }: GigCardProps) {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col h-full hover:border-primary/50 transition-colors duration-200">
       <CardHeader>
         <div className="flex items-start justify-between gap-4">
           <CardTitle className="font-headline text-lg leading-tight">
@@ -28,8 +28,8 @@ export function GigCard({ gig }: GigCardProps) {
           </div>
         </div>
         {gig.isVerified && (
-          <div className="flex items-center gap-1 text-xs text-green-600 font-medium pt-1">
-            <CheckCircle className="h-3 w-3" />
+          <div className="flex items-center gap-1.5 text-xs text-green-600 font-medium pt-1">
+            <CheckCircle className="h-3.5 w-3.5" />
             <span>Verified Client (Funds in Escrow)</span>
           </div>
         )}
@@ -39,7 +39,7 @@ export function GigCard({ gig }: GigCardProps) {
       </CardContent>
       <CardFooter className="flex flex-col items-start gap-4">
         {gig.skills.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {gig.skills.map((skill) => (
               <Badge key={skill} variant="secondary">
                 {skill}
