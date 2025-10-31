@@ -110,7 +110,7 @@ export const gigs: Gig[] = [
   {
     id: '9',
     title: 'AI-Curated: Label Images of Nigerian Food',
-    description: 'Help train a computer vision model by labeling images of popular Nigerian dishes. This is a ZBD-provided micro-gig.',
+    description: 'Help train a computer vision model by labeling images of popular Nigerian dishes. This is a MonieFlow-provided micro-gig.',
     budget: 12000,
     skills: ['Attention to Detail'],
     isVerified: true,

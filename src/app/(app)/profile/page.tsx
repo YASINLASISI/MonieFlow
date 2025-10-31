@@ -58,7 +58,7 @@ export default async function ProfilePage() {
                 {user.isVerified && (
                   <div className="mt-2 flex items-center gap-2 text-sm font-medium text-green-600">
                     <CheckCircle className="h-4 w-4" />
-                    <span>Identity & BVN Verified (ZBD Trust Layer)</span>
+                    <span>Identity & BVN Verified (MonieFlow Trust Layer)</span>
                   </div>
                 )}
               </div>

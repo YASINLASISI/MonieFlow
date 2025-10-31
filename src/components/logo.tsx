@@ -21,7 +21,7 @@ export function Logo({ className }: { className?: string }) {
         </svg>
       </div>
       <span className="font-headline text-xl font-bold text-primary">
-        ZBD
+        MonieFlow
       </span>
     </div>
   )

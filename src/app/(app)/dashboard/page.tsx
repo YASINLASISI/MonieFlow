@@ -95,7 +95,7 @@ export default function DashboardPage() {
         <CardHeader>
             <CardTitle className="font-headline">AI-Curated Gigs</CardTitle>
             <CardDescription>
-                Always have something to do. These micro-jobs are provided by ZBD partners.
+                Always have something to do. These micro-jobs are provided by MonieFlow partners.
             </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

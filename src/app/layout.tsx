@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
-  title: 'Zero Broke Days (ZBD)',
+  title: 'MonieFlow',
   description: 'AI-powered, fair, and fast income for the youth economy.',
 };
 
