@@ -1,3 +1,4 @@
+
 export type Gig = {
   id: string;
   title: string;
@@ -9,8 +10,8 @@ export type Gig = {
 };
 
 export const user = {
-  name: 'Alex Doe',
-  email: 'alex.doe@example.com',
+  name: 'Femi Adebayo',
+  email: 'femi.adebayo@example.com',
   avatar: 'https://picsum.photos/seed/user-avatar/100/100',
   skills: ['React', 'Node.js', 'Graphic Design', 'TypeScript', 'Next.js'],
   isVerified: true,
@@ -116,4 +117,13 @@ export const gigs: Gig[] = [
     isVerified: true,
     category: 'AI-Curated',
   },
+  {
+    id: '10',
+    title: 'AI-Curated: Test Website Accessibility',
+    description: 'Use an automated tool to test a partner website for accessibility issues and log the results. A short tutorial is provided.',
+    budget: 4000,
+    skills: [],
+    isVerified: true,
+    category: 'AI-Curated',
+  }
 ];
