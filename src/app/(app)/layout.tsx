@@ -1,8 +1,9 @@
-'use client'
+'use client';
 
-import { usePathname } from "next/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { useAuth } from '@/components/auth-provider';
+import { Logo } from '@/components/logo';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Sidebar,
   SidebarContent,
@@ -14,32 +15,45 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { user } from "@/lib/data"
+} from '@/components/ui/sidebar';
+import { user } from '@/lib/data';
 import {
   Briefcase,
   LayoutDashboard,
   LogOut,
   Settings,
   User as UserIcon,
-} from "lucide-react"
-import Link from "next/link"
-import { Logo } from "@/components/logo"
-import { Badge } from "@/components/ui/badge"
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function AppLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
 
   const navItems = [
-    { href: "/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-    { href: "/gigs", icon: <Briefcase />, label: "Gigs", badge: "12" },
-    { href: "/profile", icon: <UserIcon />, label: "Profile" },
-    { href: "/settings", icon: <Settings />, label: "Settings" },
-  ]
+    { href: '/dashboard', icon: <LayoutDashboard />, label: 'Dashboard' },
+    { href: '/gigs', icon: <Briefcase />, label: 'Gigs', badge: '12' },
+    { href: '/profile', icon: <UserIcon />, label: 'Profile' },
+    { href: '/settings', icon: <Settings />, label: 'Settings' },
+  ];
+
+  if (!isAuthenticated) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <SidebarProvider>
@@ -60,9 +74,9 @@ export default function AppLayout({
                   asChild
                   tooltip={{
                     children: item.label,
-                    side: "right",
-                    align: "center",
-                    className: "ml-1",
+                    side: 'right',
+                    align: 'center',
+                    className: 'ml-1',
                   }}
                   isActive={pathname === item.href}
                 >
@@ -70,7 +84,12 @@ export default function AppLayout({
                     {item.icon}
                     <span>{item.label}</span>
                     {item.badge && (
-                       <Badge variant="secondary" className="ml-auto group-data-[collapsible=icon]:hidden">{item.badge}</Badge>
+                      <Badge
+                        variant="secondary"
+                        className="ml-auto group-data-[collapsible=icon]:hidden"
+                      >
+                        {item.badge}
+                      </Badge>
                     )}
                   </Link>
                 </SidebarMenuButton>
@@ -92,11 +111,12 @@ export default function AppLayout({
                 {user.email}
               </span>
             </div>
-             <Button
+            <Button
               variant="ghost"
               size="icon"
               className="ml-auto group-data-[collapsible=icon]:hidden text-sidebar-foreground/70 hover:text-sidebar-accent-foreground hover:bg-sidebar-accent h-8 w-8"
               aria-label="Log out"
+              onClick={logout}
             >
               <LogOut className="h-4 w-4" />
             </Button>
@@ -113,5 +133,5 @@ export default function AppLayout({
         </main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }
