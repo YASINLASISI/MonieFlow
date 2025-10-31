@@ -1,3 +1,5 @@
+'use client';
+
 import { FinancialSummary } from '@/components/dashboard/financial-summary';
 import { IncomeChart } from '@/components/dashboard/income-chart';
 import { SavingsGoal } from '@/components/dashboard/savings-goal';
