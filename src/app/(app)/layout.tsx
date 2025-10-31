@@ -59,12 +59,12 @@ export default function AppLayout({
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="border-b">
-          <div className="group-data-[collapsible=icon]:hidden p-2">
+          <Link href="/dashboard" className="group-data-[collapsible=icon]:hidden p-2">
             <Logo />
-          </div>
-          <div className="hidden group-data-[collapsible=icon]:block p-2">
+          </Link>
+          <Link href="/dashboard" className="hidden group-data-[collapsible=icon]:block p-2">
             <Logo className="w-8" isIconOnly />
-          </div>
+          </Link>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -98,7 +98,7 @@ export default function AppLayout({
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="border-t">
-          <div className="flex items-center gap-3 w-full">
+          <div className="flex items-center gap-3 w-full p-3 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center">
             <Avatar className="h-8 w-8">
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
@@ -125,10 +125,10 @@ export default function AppLayout({
       </Sidebar>
       <SidebarInset>
         <header className="flex items-center justify-between border-b p-3 md:hidden sticky top-0 bg-background z-10">
-          <Logo />
+          <Link href="/dashboard"><Logo /></Link>
           <SidebarTrigger />
         </header>
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-background">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-muted/50">
           {children}
         </main>
       </SidebarInset>

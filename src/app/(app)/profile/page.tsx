@@ -35,18 +35,23 @@ export default function ProfilePage() {
 
   useEffect(() => {
     startTransition(async () => {
-        const aiGigs = await suggestGigsBasedOnSkills({ skills: user.skills });
-        // For UI purposes, we'll map the AI response to our existing GigCard component structure
-        const mappedGigs = aiGigs.map((g, i) => ({
-            id: `suggested-${i}`,
-            title: g.title,
-            description: g.description,
-            budget: Math.floor(Math.random() * (10000 - 2000 + 1) + 2000), // Random budget in NGN
-            skills: g.requiredSkills,
-            isVerified: true,
-            category: 'Recommended' as const,
-        }));
-        setSuggestedGigs(mappedGigs);
+        try {
+            const aiGigs = await suggestGigsBasedOnSkills({ skills: user.skills });
+            // For UI purposes, we'll map the AI response to our existing GigCard component structure
+            const mappedGigs = aiGigs.map((g, i) => ({
+                id: `suggested-${i}`,
+                title: g.title,
+                description: g.description,
+                budget: Math.floor(Math.random() * (10000 - 2000 + 1) + 2000), // Random budget in NGN
+                skills: g.requiredSkills,
+                isVerified: true,
+                category: 'Recommended' as const,
+            }));
+            setSuggestedGigs(mappedGigs);
+        } catch (error) {
+            console.error("Failed to fetch suggested gigs:", error);
+            // Optionally set an error state to show in the UI
+        }
     });
   }, []);
 
