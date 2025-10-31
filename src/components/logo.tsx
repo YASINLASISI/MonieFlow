@@ -16,14 +16,12 @@ export function Logo({ className }: { className?: string }) {
           strokeLinejoin="round"
           className="h-5 w-5"
         >
-          <path d="M4 4v16h16" />
-          <path d="m4 20 7-7" />
-          <path d="m11 13 4-4" />
-          <path d="m15 9 6 6" />
+          <path d="M12 2v20" />
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
         </svg>
       </div>
       <span className="font-headline text-xl font-bold text-primary">
-        Monieflow
+        ZBD
       </span>
     </div>
   )

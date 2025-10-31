@@ -14,7 +14,7 @@ import {
   ChartConfig,
 } from '@/components/ui/chart';
 import { financialData } from '@/lib/data';
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 const chartConfig = {
   income: {
@@ -29,30 +29,29 @@ const chartConfig = {
 
 export function IncomeChart() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="font-headline">Income & Expenses</CardTitle>
-        <CardDescription>
-          Your financial overview for the last 7 months.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-          <BarChart accessibilityLayer data={financialData.incomeHistory}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Bar dataKey="income" fill="var(--color-income)" radius={4} />
-            <Bar dataKey="expenses" fill="var(--color-expenses)" radius={4} />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+      <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+        <BarChart accessibilityLayer data={financialData.incomeHistory}>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="month"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) => value.slice(0, 3)}
+          />
+          <YAxis 
+            tickFormatter={(value) => `₦${Number(value) / 1000}k`}
+            tickLine={false}
+            axisLine={false}
+            width={40}
+          />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent formatter={(value) => `₦${Number(value).toLocaleString()}`} />}
+          />
+          <Bar dataKey="income" fill="var(--color-income)" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="expenses" fill="var(--color-expenses)" radius={[4, 4, 0, 0]} />
+        </BarChart>
+      </ChartContainer>
   );
 }

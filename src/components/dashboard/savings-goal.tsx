@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { financialData } from '@/lib/data';
+import { Lock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function SavingsGoal() {
@@ -23,25 +24,20 @@ export function SavingsGoal() {
   }, []);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="font-headline">Savings Goal</CardTitle>
-        <CardDescription>
-          You are on your way to reaching your savings target. Keep it up!
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <>
+      <div className="space-y-4">
         <div className="flex justify-between font-mono text-lg">
-          <span>${financialData.savings.toLocaleString()}</span>
+          <span>₦{financialData.savings.toLocaleString()}</span>
           <span className="text-muted-foreground">
-            / ${financialData.savingsGoal.toLocaleString()}
+            / ₦{financialData.savingsGoal.toLocaleString()}
           </span>
         </div>
         <Progress value={progress} />
-      </CardContent>
-      <CardFooter>
-        <Button className="w-full">Auto-Save Settings</Button>
-      </CardFooter>
-    </Card>
+         <Button className="w-full">
+            <Lock className="mr-2 h-4 w-4" />
+            Auto-Route Savings
+        </Button>
+      </div>
+    </>
   );
 }

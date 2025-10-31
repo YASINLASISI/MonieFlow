@@ -3,7 +3,7 @@
 import { summarizeFinancialData } from '@/ai/flows/summarize-financial-data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { financialData } from '@/lib/data';
-import { Lightbulb, Loader2 } from 'lucide-react';
+import { Sparkles, Loader2 } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 
 export function FinancialSummary() {
@@ -27,7 +27,7 @@ export function FinancialSummary() {
         <CardTitle className="text-sm font-medium">
           AI Financial Insight
         </CardTitle>
-        <Lightbulb className="h-4 w-4 text-primary-foreground/80" />
+        <Sparkles className="h-4 w-4 text-primary-foreground/80" />
       </CardHeader>
       <CardContent>
         {isPending ? (

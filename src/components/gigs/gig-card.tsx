@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import type { Gig } from '@/lib/data';
-import { CheckCircle, Zap } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { ProposalGenerator } from './proposal-generator';
 
 interface GigCardProps {
@@ -19,18 +19,18 @@ export function GigCard({ gig }: GigCardProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-4">
           <CardTitle className="font-headline text-lg leading-tight">
             {gig.title}
           </CardTitle>
-          <div className="font-mono text-lg font-semibold text-primary">
-            ${gig.budget}
+          <div className="font-mono text-lg font-semibold text-primary whitespace-nowrap">
+            ₦{gig.budget.toLocaleString()}
           </div>
         </div>
         {gig.isVerified && (
-          <div className="flex items-center gap-1 text-xs text-green-600">
+          <div className="flex items-center gap-1 text-xs text-green-600 font-medium pt-1">
             <CheckCircle className="h-3 w-3" />
-            <span>Verified Client</span>
+            <span>Verified Client (Funds in Escrow)</span>
           </div>
         )}
       </CardHeader>
