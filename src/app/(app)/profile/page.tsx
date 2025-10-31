@@ -1,6 +1,5 @@
 'use client';
 
-import { suggestGigsBasedOnSkills, type SuggestedGig } from '@/ai/flows/suggest-gigs-based-on-skills';
 import { GigCard } from '@/components/gigs/gig-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -16,7 +15,7 @@ import { Separator } from '@/components/ui/separator';
 import { user } from '@/lib/data';
 import { CheckCircle, Download, Trophy, Star, Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 
 type MappedGig = {
     id: string;
@@ -31,28 +30,25 @@ type MappedGig = {
 
 export default function ProfilePage() {
   const [suggestedGigs, setSuggestedGigs] = useState<MappedGig[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    startTransition(async () => {
-        try {
-            const aiGigs = await suggestGigsBasedOnSkills({ skills: user.skills });
-            // For UI purposes, we'll map the AI response to our existing GigCard component structure
-            const mappedGigs = aiGigs.map((g, i) => ({
-                id: `suggested-${i}`,
-                title: g.title,
-                description: g.description,
-                budget: Math.floor(Math.random() * (10000 - 2000 + 1) + 2000), // Random budget in NGN
-                skills: g.requiredSkills,
-                isVerified: true,
-                category: 'Recommended' as const,
-            }));
-            setSuggestedGigs(mappedGigs);
-        } catch (error) {
-            console.error("Failed to fetch suggested gigs:", error);
-            // Optionally set an error state to show in the UI
-        }
-    });
+    // Simulate AI fetching data
+    const timer = setTimeout(() => {
+        const aiGig: MappedGig = {
+            id: 'suggested-1',
+            title: 'Create a Social Media Content Calendar',
+            description: 'Develop a one-month content calendar for a local fashion brand. Includes post ideas, captions, and hashtag suggestions.',
+            budget: 25000,
+            skills: ['Content Strategy', 'Social Media', 'Marketing'],
+            isVerified: true,
+            category: 'Recommended'
+        };
+        setSuggestedGigs([aiGig]);
+        setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const portfolioItems = [
@@ -198,12 +194,12 @@ export default function ProfilePage() {
                 AI Suggested Gigs
               </h2>
               <div className="space-y-4">
-                {isPending ? (
+                {isLoading ? (
                     <div className="flex items-center justify-center rounded-lg border border-dashed p-8">
                         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                     </div>
                 ) : (
-                    suggestedGigs.slice(0, 1).map((gig) => (
+                    suggestedGigs.map((gig) => (
                         <GigCard key={gig.id} gig={gig as any} />
                     ))
                 )}

@@ -1,6 +1,5 @@
 'use client';
 
-import { generateProposalFromGigDetails } from '@/ai/flows/generate-proposal-from-gig-details';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -15,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Gig, user } from '@/lib/data';
 import { Clipboard, Loader2, Bot, Sparkles } from 'lucide-react';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 
 interface ProposalGeneratorProps {
   gig: Gig;
@@ -24,20 +23,29 @@ interface ProposalGeneratorProps {
 export function ProposalGenerator({ gig }: ProposalGeneratorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [proposal, setProposal] = useState('');
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleGenerateProposal = () => {
     setProposal('');
-    startTransition(async () => {
-      const result = await generateProposalFromGigDetails({
-        gigTitle: gig.title,
-        gigDescription: gig.description,
-        userName: user.name,
-        userSkills: user.skills,
-      });
-      setProposal(result.proposal);
-    });
+    setIsLoading(true);
+    // Simulate AI generation with a delay
+    setTimeout(() => {
+      const generatedProposal = `Dear Client,
+
+I am writing to express my strong interest in the "${gig.title}" opportunity. With my experience in [Skill 1] and [Skill 2], I am confident I can deliver excellent results.
+
+My background in ${user.skills.slice(0,2).join(', ')} makes me a great fit for this project. I am passionate about creating high-quality work and have a proven track record of success.
+
+I am available to start immediately and can dedicate my full attention to ensuring this project is completed to your satisfaction.
+
+Thank you for your time and consideration.
+
+Best regards,
+${user.name}`;
+      setProposal(generatedProposal);
+      setIsLoading(false);
+    }, 1500);
   };
 
   const handleCopy = () => {
@@ -75,7 +83,7 @@ export function ProposalGenerator({ gig }: ProposalGeneratorProps) {
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">
-          {isPending ? (
+          {isLoading ? (
             <div className="flex min-h-[200px] items-center justify-center rounded-md border border-dashed">
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-8 w-8 animate-spin" />
@@ -91,15 +99,15 @@ export function ProposalGenerator({ gig }: ProposalGeneratorProps) {
           )}
         </div>
         <DialogFooter className="sm:justify-between">
-            <Button variant="ghost" onClick={handleGenerateProposal} disabled={isPending}>
+            <Button variant="ghost" onClick={handleGenerateProposal} disabled={isLoading}>
                 Regenerate
             </Button>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={handleCopy} disabled={isPending || !proposal}>
+            <Button variant="outline" onClick={handleCopy} disabled={isLoading || !proposal}>
               <Clipboard className="mr-2 h-4 w-4" />
               Copy
             </Button>
-            <Button disabled={isPending || !proposal}>Submit Application</Button>
+            <Button disabled={isLoading || !proposal}>Submit Application</Button>
           </div>
         </DialogFooter>
       </DialogContent>
