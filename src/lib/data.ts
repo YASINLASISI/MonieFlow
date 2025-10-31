@@ -10,8 +10,8 @@ export type Gig = {
 };
 
 export const user = {
-  name: 'Femi Adebayo',
-  email: 'femi.adebayo@example.com',
+  name: 'Gabriel Idahosa',
+  email: 'gabriel.idahosa@example.com',
   avatar: 'https://picsum.photos/seed/user-avatar/100/100',
   skills: ['React', 'Node.js', 'Graphic Design', 'TypeScript', 'Next.js'],
   isVerified: true,
