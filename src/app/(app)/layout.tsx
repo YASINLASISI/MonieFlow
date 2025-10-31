@@ -55,10 +55,10 @@ export default function AppLayout({
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={{ children: "Find Work", side: "right", align: "center", className: "ml-1"}}>
+              <SidebarMenuButton asChild tooltip={{ children: "Gigs", side: "right", align: "center", className: "ml-1"}}>
                 <Link href="/gigs">
                   <Briefcase />
-                  <span>Find Work</span>
+                  <span>Gigs</span>
                    <Badge variant="secondary" className="ml-auto group-data-[collapsible=icon]:hidden">12</Badge>
                 </Link>
               </SidebarMenuButton>
