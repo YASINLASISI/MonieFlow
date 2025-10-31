@@ -33,12 +33,12 @@ export default function AppLayout({
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="border-b">
+          <div className="group-data-[collapsible=icon]:hidden p-2">
+            <Logo />
+          </div>
           <div className="hidden group-data-[collapsible=icon]:block p-2">
             <Logo className="w-8" isIconOnly />
           </div>
-           <div className="hidden group-data-[collapsible=icon]:hidden p-2">
-             <Logo />
-           </div>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
